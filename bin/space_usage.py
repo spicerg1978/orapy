@@ -26,7 +26,7 @@ sys.tracebacklimit = 0
 
 # Open SQL file
 # Should add a check to see if SQL file exists 
-fd = open('../sql/space_usage.sql','r')
+fd = open('/home/gareth/scripts/python/dbascripts/sql/space_usage.sql','r')
 sqlFile = fd.read()
 fd.close
 

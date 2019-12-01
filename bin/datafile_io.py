@@ -22,6 +22,7 @@
 from __future__ import print_function
 from pylab import *
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import numpy as np
 import datetime
 import oraconn
@@ -37,8 +38,8 @@ flnms = ''
 dtrg = input("Do you want to enter a date range (Y/N)?")
 if dtrg in ('Y','y'):
    psql = 1
-   stdt = input("Enter Start Date:")
-   eddt = input("Enter End Date:")
+   stdt = input("Enter Start Date (YYYYMMDD):")
+   eddt = input("Enter End Date (YYYYMMDD):")
 # Need to add so a list of datafiles could be added
 dfrg = input("Do you want to graph a file(s):(Y/N)?")
 if dfrg in ('Y','y'):
@@ -78,7 +79,7 @@ else:
 # So need to apply patch for now I have mocked up some test data
 ########################################################################
 if psql == 1 and pfile == 0:
-    SQL = "SELECT * FROM (SELECT to_char(created,'DD-MM-YYYY') created, file_name, io_wait FROM file_io WHERE TO_CHAR(created, 'yyyymmdd') BETWEEN " + stdt + " AND " + eddt + ") PIVOT (AVG(io_wait) FOR file_name IN (" + fielist + ")) ORDER BY 1"
+    SQL = "SELECT * FROM (SELECT to_char(created,'DD-MM-YYYY') created, file_name, io_wait FROM file_io WHERE TO_CHAR(created, 'yyyymmdd') BETWEEN " + stdt + " AND " + eddt + ") PIVOT (AVG(io_wait) FOR file_name IN (" + filelist + ")) ORDER BY 1"
 elif psql == 1 and pfile == 1 and count == 0:
     SQL = "SELECT * FROM (SELECT to_char(created,'DD-MM-YYYY') created, file_name, io_wait FROM file_io WHERE TO_CHAR(created, 'yyyymmdd') BETWEEN " + stdt + " AND " + eddt + ") PIVOT (AVG(io_wait) FOR file_name in ('" + str(filelist) + "')) ORDER BY 1"
 elif psql == 0 and pfile == 1 and count == 0:
@@ -94,17 +95,22 @@ else:
 oraconn.exe_sql(SQL)
 records = oraconn.cur.fetchall() 
 col = len(oraconn.cur.description)-1
-# print column headers
 columns = [column[0] for column in oraconn.cur.description]
 oraconn.cls_conn()
 
 #store date range from sql
 created = [record[0] for record in records]
+fig, ax = plt.subplots()
 # plot graph
 for x in range(0,col):
  x += 1
  dfile = [record[x] for record in records]
- plt.plot(created,dfile,label=columns[x])
+ #plt.plot(created,dfile,label=columns[x])
+ ax.plot(created,dfile,label=columns[x])
+
+fig.autofmt_xdate()
+ax.fmt_xdata = mdates.DateFormatter('%Y-%m-%d')
+ax.set_title('fig.autofmt_xdate fixes the labels')
 
 # print graph
 plt.title('Datafile IO Wait (ms)', color='b')
@@ -114,6 +120,7 @@ if psql == 1:
 else:
    plt.xlabel('Date', color='b')
 plt.ylabel('IO (ms)', color='b')
+
 show()
 plt.show()
 
