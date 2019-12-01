@@ -14,6 +14,7 @@
 # 20/11/2019 1.01 Gareth Spicer    Add wallet connection method to script			 #
 #                                  Dynamically set graph to collect all file info                #
 # 28/11/2019 1.02 Gareth Spicer    Added oraconn functions for database                          #
+# 01/12/2019 1.03 Gareth Spicer    Testing commit into github					 #
 #												 #
 # TO DO:											 #
 #	ADD DEBUG OPTION THAT CAN BE PASSED IN TO PRINT MORE INFO				 #
