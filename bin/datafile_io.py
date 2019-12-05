@@ -18,6 +18,7 @@
 #												 #
 # TO DO:											 #
 #	ADD DEBUG OPTION THAT CAN BE PASSED IN TO PRINT MORE INFO				 #
+#       Sort out Date graph format 								 #
 ##################################################################################################
 
 from __future__ import print_function
@@ -104,10 +105,9 @@ created = [record[0] for record in records]
 fig, ax = plt.subplots()
 # plot graph
 for x in range(0,col):
- x += 1
- dfile = [record[x] for record in records]
- #plt.plot(created,dfile,label=columns[x])
- ax.plot(created,dfile,label=columns[x])
+    x += 1
+    dfile = [record[x] for record in records]
+    ax.plot(created,dfile,label=columns[x])
 
 fig.autofmt_xdate()
 ax.fmt_xdata = mdates.DateFormatter('%Y-%m-%d')
@@ -117,9 +117,9 @@ ax.set_title('fig.autofmt_xdate fixes the labels')
 plt.title('Datafile IO Wait (ms)', color='b')
 plt.legend(loc='center right', bbox_to_anchor=(1.132, 0.5))
 if psql == 1:
-   plt.xlabel('Date From: ' + stdt + ' To: ' + eddt, color='b')
+    plt.xlabel('Date From: ' + stdt + ' To: ' + eddt, color='b')
 else:
-   plt.xlabel('Date', color='b')
+    plt.xlabel('Date', color='b')
 plt.ylabel('IO (ms)', color='b')
 
 show()
