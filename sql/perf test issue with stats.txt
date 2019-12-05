@@ -1,0 +1,17 @@
+PERF TEST ISSUE WITH STATS
+
+execute dbms_stats.gather_table_stats(ownname => 'SYS', tabname => 'SEG$', estimate_percent => DBMS_STATS.AUTO_SAMPLE_SIZE, method_opt => 'FOR ALL COLUMNS SIZE AUTO');
+execute dbms_stats.gather_table_stats(ownname => 'SYS', tabname => 'TABPART$', estimate_percent => DBMS_STATS.AUTO_SAMPLE_SIZE, method_opt => 'FOR ALL COLUMNS SIZE AUTO');
+execute dbms_stats.gather_table_stats(ownname => 'SYS', tabname => 'INDPART$', estimate_percent => DBMS_STATS.AUTO_SAMPLE_SIZE, method_opt => 'FOR ALL COLUMNS SIZE AUTO');
+execute dbms_stats.gather_table_stats(ownname => 'SYS', tabname => 'TABSUBPART$', estimate_percent => DBMS_STATS.AUTO_SAMPLE_SIZE, method_opt => 'FOR ALL COLUMNS SIZE AUTO');
+execute dbms_stats.gather_table_stats(ownname => 'SYS', tabname => 'INDSUBPART$', estimate_percent => DBMS_STATS.AUTO_SAMPLE_SIZE, method_opt => 'FOR ALL COLUMNS SIZE AUTO');
+execute dbms_stats.gather_table_stats(ownname => 'SYS', tabname => 'LOBFRAG$', estimate_percent => DBMS_STATS.AUTO_SAMPLE_SIZE, method_opt => 'FOR ALL COLUMNS SIZE AUTO');
+execute dbms_stats.gather_table_stats(ownname => 'SYS', tabname => 'WRM$_SNAPSHOT', estimate_percent => DBMS_STATS.AUTO_SAMPLE_SIZE, method_opt => 'FOR ALL COLUMNS SIZE AUTO');
+execute dbms_stats.gather_table_stats(ownname => 'SYS', tabname => 'WRI$_ADV_ADDM_INST', estimate_percent => DBMS_STATS.AUTO_SAMPLE_SIZE, method_opt => 'FOR ALL COLUMNS SIZE AUTO');
+execute dbms_stats.gather_table_stats(ownname => 'SYS', tabname => 'WRI$_ADV_EXECUTIONS', estimate_percent => DBMS_STATS.AUTO_SAMPLE_SIZE, method_opt => 'FOR ALL COLUMNS SIZE AUTO');
+execute dbms_stats.gather_table_stats(ownname => 'SYS', tabname => 'WRI$_ADV_TASKS', estimate_percent => DBMS_STATS.AUTO_SAMPLE_SIZE, method_opt => 'FOR ALL COLUMNS SIZE AUTO');
+
+
+
+
+

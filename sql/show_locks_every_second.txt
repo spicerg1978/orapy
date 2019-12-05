@@ -1,0 +1,55 @@
+ spool show_locks_idm.lis
+
+ begin
+ 
+ dbms_output.put_line('SESSION_ID, USERNAME, OWNER, OBJECT_NAME, LOCK_MODE, OS_USER');
+ 
+ for x in 1..600
+ 
+ loop
+        declare
+     
+ 	    cursor show_locks is
+ 	    SELECT b.session_id AS sid, NVL(b.oracle_username, '(oracle)') AS username, a.owner AS object_owner, a.object_name,
+           	   Decode(b.locked_mode, 0, 'None NO LOCK',1, 'Null (NULL) ROW SHARE',2, 'Row-S (SS) ',3, 'Row-X (SX) ROW EXCLUSIVE',4, 'Share (S) SHARE',5, 'S/Row-X (SSX) SHARE ROW EXCL',6, 'Exclusive (X) EXCLUSIVE', b.locked_mode) locked_mode,
+ 	           b.os_user_name
+       	      FROM dba_objects a,
+                   v$locked_object b
+             WHERE a.object_id = b.object_id
+          ORDER BY 1, 2, 3, 4;
+    
+    	v_session 		v$locked_object.session_id%TYPE;
+    	v_username 		v$locked_object.oracle_username%TYPE;
+    	v_owner			dba_objects.owner%TYPE;
+    	v_object_name		dba_objects.object_name%TYPE;
+    	v_locked_mode		VARCHAR2(50);
+    	v_os_user		v$locked_object.os_user_name%TYPE;
+ 	
+ 	begin
+    
+   	open show_locks; 
+   
+   	 loop
+    
+   	 fetch show_locks into v_session, v_username,v_owner,v_object_name,v_locked_mode,v_os_user;
+   	 exit when show_locks%NOTFOUND;
+    
+   	 dbms_output.put_line(v_session||','||v_username||','||v_owner||','||v_object_name||','||v_locked_mode||','||v_os_user);
+    
+   	 end loop;
+    
+   	 close show_locks;
+    
+ 	end;
+ 	
+        dbms_lock.sleep(1);
+  	
+  	dbms_output.put_line(to_char(sysdate,'DD-MM-YYYY HH24:MI:SS'));
+  	
+  end loop;
+  
+end;
+/
+
+spool off
+ 

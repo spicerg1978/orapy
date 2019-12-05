@@ -1,0 +1,1 @@
+select plan_table_output from table(dbms_xplan.display('PLAN_TABLE',null,'TYPICAL'));

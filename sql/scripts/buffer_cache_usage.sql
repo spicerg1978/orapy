@@ -1,0 +1,21 @@
+select
+      object_name       c1,
+      object_type       c2,
+      num_blocks        c3,
+      (num_blocks/decode(sum(blocks), 0, .001, sum(blocks)))*100 c4
+ from
+      (select o.object_name object_name, o.object_type    object_type, count(1) num_blocks
+         from dba_objects  o,
+              v$bh bh
+         where o.object_id  = bh.objd
+         group by o.object_name, o.object_type
+         order by count(1) desc) t1,
+      dba_segments s
+ where s.segment_name = t1.object_name
+   and num_blocks > 10
+   group by
+      object_name,
+      object_type,
+      num_blocks
+   order by
+      num_blocks desc

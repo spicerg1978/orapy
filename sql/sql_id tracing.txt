@@ -1,0 +1,89 @@
+alter system set events 'sql_trace [sql:59sjd92gdhqzw] off';
+
+alter system set events 'sql_trace [sql:59sjd92gdhqzw] wait=true, bind=true,level=12';
+
+
+alter system set events 'sql_trace [sql:akdk2mcu1afrr] wait=true, bind=true,level=12';
+
+alter system set events 'sql_trace [sql:akdk2mcu1afrr] off';
+
+59sjd92gdhqzw
+
+alter system set events 'sql_trace [sql:e] off';
+
+alter system set events 'sql_trace [sql:cvv8943aff7dh] wait=true, bind=true,level=12';
+
+
+f98jqzwnrv7d6
+
+
+alter system set events 'sql_trace [sql:9utphkxgqvwcy] wait=true, bind=true,level=12';
+
+236.935
+
+
+begin
+  dbms_sqldiag.dump_trace(p_sql_id=>'0jxthrdgf8t0d',p_component=>'Compiler');
+end;
+/
+
+
+1380903388 267297
+
+
+
+begin
+  dbms_sqldiag.dump_trace(p_sql_id=>'4m42tk8u9k0bb');
+end;
+/
+
+,p_file_id=>'1bc18z8yf0zcq_TRACE_FILE'
+
+
+9z548n35zju8n/0  579247916 e    21-09-2012 12:44:35         49 177273.054 178441.862   3641.671      11709     6852859          49049          0 Y N
+
+
+ select index_name, partition_name, high_value, num_rows, LAST_ANALYZED
+    from dba_ind_partitions
+    where index_name in (select index_name from dba_indexes where table_name = 'HALF_TRADE')
+   order by 1
+
+exec dbms_stats.copy_table_stats(tridlive, 'half_trade', srcpartname=>'SYS_P25644', dstpartname=>'SYS_P25666');
+
+
+INDEX_NAME                     PARTITION_NAME                 HIGH_VALUE                                                                         NUM_ROWS LAST_ANAL
+------------------------------ ------------------------------ -------------------------------------------------------------------------------- ---------- ---------
+HALF_TRADE_PK_IDX              SYS_P25668                     8084
+HALF_TRADE_PK_IDX              SYS_P25602                     8077                                                                                1092404 29-SEP-12
+HALF_TRADE_PK_IDX              SYS_P25605                     8078                                                                                1092404 29-SEP-12
+HALF_TRADE_PK_IDX              SYS_P25666                     8082
+HALF_TRADE_PK_IDX              SYS_P25624                     8079                                                                                1092404 29-SEP-12
+HALF_TRADE_PK_IDX              SYS_P25670                     8086
+HALF_TRADE_PK_IDX              SYS_P25669                     8085
+HALF_TRADE_PK_IDX              SYS_P25667                     8083
+HALF_TRADE_PK_IDX              SYS_P25644                     8080                                                                                1092404 29-SEP-12
+HALF_TRADE_PK_IDX              SYS_P25663                     8081                                                                                1092404 29-SEP-12
+HALF_TRADE_PK_IDX              P_TRDNG_DY_DFLT                1                                                                                         0 29-SEP-12
+HALF_TRADE_Q0_IDX              SYS_P25669                     8085
+HALF_TRADE_Q0_IDX              SYS_P25666                     8082
+HALF_TRADE_Q0_IDX              P_TRDNG_DY_DFLT                1                                                                                         0 29-SEP-12
+HALF_TRADE_Q0_IDX              SYS_P25602                     8077                                                                                1097903 29-SEP-12
+HALF_TRADE_Q0_IDX              SYS_P25644                     8080                                                                                1097903 29-SEP-12
+HALF_TRADE_Q0_IDX              SYS_P25668                     8084
+HALF_TRADE_Q0_IDX              SYS_P25624                     8079                                                                                1097903 29-SEP-12
+HALF_TRADE_Q0_IDX              SYS_P25663                     8081                                                                                1097903 29-SEP-12
+HALF_TRADE_Q0_IDX              SYS_P25667                     8083
+HALF_TRADE_Q0_IDX              SYS_P25605                     8078                                                                                1097903 29-SEP-12
+HALF_TRADE_Q0_IDX              SYS_P25670                     8086
+HALF_TRADE_Q1_IDX              P_TRDNG_DY_DFLT                1                                                                                         0 29-SEP-12
+HALF_TRADE_Q1_IDX              SYS_P25663                     8081                                                                                1096887 29-SEP-12
+HALF_TRADE_Q1_IDX              SYS_P25644                     8080                                                                                1096887 29-SEP-12
+HALF_TRADE_Q1_IDX              SYS_P25669                     8085
+HALF_TRADE_Q1_IDX              SYS_P25668                     8084
+HALF_TRADE_Q1_IDX              SYS_P25602                     8077                                                                                1096887 29-SEP-12
+HALF_TRADE_Q1_IDX              SYS_P25667                     8083
+HALF_TRADE_Q1_IDX              SYS_P25624                     8079                                                                                1096887 29-SEP-12
+HALF_TRADE_Q1_IDX              SYS_P25605                     8078                                                                                1096887 29-SEP-12
+HALF_TRADE_Q1_IDX              SYS_P25670                     8086
+HALF_TRADE_Q1_IDX              SYS_P25666                     8082
+

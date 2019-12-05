@@ -1,0 +1,67 @@
+spool 11gr1_p022_phase2_queries.lis
+set lines 10000
+
+SELECT * FROM TABLE(dbms_xplan.display_cursor('c0ujw2356d3r0',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('0s2fn03jzgwmx',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('2a4s6r8bzgjf2',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('5p2tw21bg431n',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('bv9mx297ss726',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('67xtmkxc9s7pc',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('1p30n82b6n0pg',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('ap19rxgt3rj04',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('1bg7f9uu3yvgb',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('98vdf72m9ncdj',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('7b6bfwuvm6qkg',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('cu7t56g7yf9tm',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('fmfpydk8msnyf',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('9dyf6catuy9kj',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('41p93mffdxzy4',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('2jjghkux88x6f',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('3ywd5hxc1vtut',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('6zp1nm00jw9w6',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('5pmnzmmtdtxq9',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('a9c2w9cr9bbz4',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('30k7pajhhdmcz',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('dkk2j0m7adm7w',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('aw8y37syzyntg',1));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('d4yg4s28z01tw',1));
+spool off
+
+
+spool 11gr1_p022_phase3_queries.lis
+set lines 10000
+SELECT * FROM TABLE(dbms_xplan.display_cursor('7aaqz8j8dxvcm',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('b5caraj6124mr',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('7d7wh5jfb2875',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('9r144620ycu3c',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('04gksf30v0g9b',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('4bntwa5wqk393',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('8auvvnsqtf2b8',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('35vb5s6hy0vax',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('0n8cmjahb4xcf',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('001xpydt4t9hk',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('5a8fg198yzk0k',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('fahwcxums3qqm',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('56hkvquq1ndan',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('7w5kufsmqqsc9',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('3k6rvrktn4ajk',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('15dk23v5afz7n',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('4q94n4za5gg1h',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('44qts37gxvhxs',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('d2s1m66310ag2',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('3yz7wfwsas2rk',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('1g4kgw3uj11ct',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('djmhqm9b4m6wh',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('18fkpuv8x7c86',0));
+SELECT * FROM TABLE(dbms_xplan.display_cursor('3nghg5wyzu9x7',0));
+spool off
+
+spool 11gr1_p022_phase3_queries_full.lis
+set long 100000
+SELECT sql_id, sql_fulltext
+  from v$sql where sql_id in ('7aaqz8j8dxvcm','b5caraj6124mr','7d7wh5jfb2875','9r144620ycu3c''04gksf30v0g9b''4bntwa5wqk393',
+                              '8auvvnsqtf2b8','35vb5s6hy0vax','0n8cmjahb4xcf','001xpydt4t9hk''5a8fg198yzk0k','fahwcxums3qqm',
+                              '56hkvquq1ndan','7w5kufsmqqsc9''3k6rvrktn4ajk','15dk23v5afz7n','4q94n4za5gg1h','44qts37gxvhxs',
+                              'd2s1m66310ag2','3yz7wfwsas2rk','1g4kgw3uj11ct','djmhqm9b4m6wh','18fkpuv8x7c86','3nghg5wyzu9x7');
+                              
+spool off

@@ -1,0 +1,242 @@
+begin
+  dbms_sqldiag.dump_trace(p_sql_id=>'a7tsdb5wuw4ds',p_component=>'Compiler',p_file_id=>'a7tsdb5wuw4ds_TRACE_FILE');
+end;
+/
+
+begin
+  dbms_sqldiag.dump_trace(p_sql_id=>'1md3fxmy3mfxn',p_component=>'Compiler',p_file_id=>'1md3fxmy3mfxn_TRACE_FILE');
+end;
+/
+
+begin
+  dbms_sqldiag.dump_trace(p_sql_id=>'cqjmj75344w69',p_child_number=>1,p_component=>'Compiler',p_file_id=>'cqjmj75344w69_TRACE_FILE');
+end;
+/
+
+begin
+  dbms_sqldiag.dump_trace(p_sql_id=>'ffzabtk7ghpug',p_child_number=>1);
+end;
+/
+
+
+begin
+  dbms_sqldiag.dump_trace(p_sql_id=>'4jjw2r2s9sb4h',p_child_number=>1);
+end;
+/
+
+----
+begin
+  dbms_sqldiag.dump_trace(p_sql_id=>'6sdc9zuc6tn00',p_child_number=>1);
+end;
+/
+
+begin
+  dbms_sqldiag.dump_trace(p_sql_id=>'9dfc75ujrn782');
+end;
+/
+----
+
+
+
+begin
+  dbms_sqldiag.dump_trace(p_sql_id=>'6dhr6jvdnujrd'); -- This statement is not seeing the behaviour
+end;
+/
+
+*** 2013-01-29 09:29:05.059
+** Executed dynamic sampling query:
+    level : 4
+    sample pct. : 1.477918
+    total partitions : 1
+      partitions for sampling : 1
+    actual sample size : 748
+    filtered sample card. : 0
+    filtered sample card. (index HALF_TRADE_Q1_IDX): 0
+    filtered sample card. (index HALF_TRADE_Q0_IDX): 0
+    filtered sample card. (index HALF_TRADE_PK_IDX): 734
+    orig. card. : 1084428
+    block cnt. table stat. : 85594
+    block cnt. for sampling: 17254
+    max. sample block cnt. : 256
+    sample block cnt. : 255
+    min. sel. est. : 0.00000000
+** Not using dynamic sampling for single table sel. or cardinality.
+
+
+
+alter system set events 'sql_trace [sql: sql_id=4jjw2r2s9sb4h] level 12';
+alter system set events 'sql_trace [sql: sql_id=68qu3bqvtg9hm] level 12';
+
+
+alter system set events 'sql_trace [sql: sql_id=4jjw2r2s9sb4h] off';
+alter system set events 'sql_trace [sql: sql_id=68qu3bqvtg9hm] off';
+	
+
+
+
+
+
+
+One Off case ...
+
+ID                    PLAN ACTIVE              EXECUTIONS      CPUMS   ELAPSEMS     AVGEMS DISK_READS BUFFER_GETS ROWS_PROCESSED         CC S A
+--------------- ---------- ------------------- ---------- ---------- ---------- ---------- ---------- ----------- -------------- ---------- - -
+0cc94h83cj8fw/0 2604876503 29-01-2013 10:59:06          1    554.915    554.427    554.427          0       58447             14          0 N N
+
+begin
+  dbms_sqldiag.dump_trace(p_sql_id=>'0cc94h83cj8fw');
+end;
+/
+
+*** 2013-01-29 11:03:46.035
+** Executed dynamic sampling query:
+    level : 4
+    sample pct. : 0.808651
+    total partitions : 1
+      partitions for sampling : 1
+    actual sample size : 335067
+    filtered sample card. : 10226
+    filtered sample card. (index HALF_TRADE_PK_IDX): 328216
+    orig. card. : 1084428
+    block cnt. table stat. : 85594
+    block cnt. for sampling: 31534
+    max. sample block cnt. : 256
+    sample block cnt. : 255
+    min. sel. est. : 0.00000003
+    index HALF_TRADE_PK_IDX selectivity est.: 1.00000000
+** Using single table dynamic sel. est. : 1.00000000
+  Using prorated density: 0.000092 of col #6 as selectvity of out-of-range/non-existent value pred
+
+
+
+
+
+
+
+
+
+
+
+
+0 4288700986 25-01-2013 23:08:52          5    22.5964               22.4512          0       22970              0
+               0 1480175864 25-01-2013 23:08:54          4 3399.73325            3405.63275       1655     4297947              8
+6mmst8wpbrt2g               0 4288700986 25-01-2013 23:08:54          3 3255.17167            3255.67933          5     3223386           5228
+96ud5hn13d5dr               0 4288700986 25-01-2013 23:08:55          1   3193.514              3193.629          0     1074485              0
+
+
+
+
+ 1  select sql_id, plan, sum(executions)
+  2  from (select qm.sql_id, child_number as Id, plan_hash_value as Plan,
+  3  to_char(last_active_time,'dd-mm-yyyy hh24:mi:ss')as Active, executions, cpu_ms/executions as cpums,
+  4  ELAPSED_MS/executions,
+  5  disk_reads, buffer_gets, rows_processed,
+  6  concurrency_wait_time cc,is_bind_sensitive S,is_bind_aware a
+  7  from dba_admin.query_monitor_hist qm, dba_admin.query_sql_hist qa
+  8  where qm.sql_id = qa.sql_id
+  9    and qa.sql_fulltext like 'INSERT INTO half_trade_results SELECT%:p_query_id, rownum AS query_row_num, ht.%'
+ 10    and qa.sql_fulltext not like '%HALF_TRADE_ID =%'
+ 11    -- and to_char(last_active_time,'dd-mm-yyyy hh24:mi') = '09-01-2013 15:20'
+ 12    and ELAPSED_MS/executions > 1000
+ 13   and to_char(last_active_time,'dd-mm-yyyy') = '11-01-2013'
+ 14  --and sql_id = '41tqdx3a22shw'
+ 15    and executions > 0
+ 16  --order by last_active_time,sql_id
+ 17  )
+ 18* group by sql_id, plan
+SQL> /
+
+
+
+INSERT INTO half_trade_results SELECT /*+ DYNAMIC_SAMPLING(4) */ :p_query_id, ro
+wnum AS query_row_num, ht.* FROM (SELECT HALF_TRADE_ID, HALF_TRADE_SRC_ID, SUB_T
+RADE_SEQ_NO, TRADING_DAY, MATCH_SEQ_NO, TRADE_STATUS, SLIP_TYPE,TRADE_TYPE, EXCH
+ANGE_CODE, TRADER_CARD_REF, TRADED_DATE, ENTERED_DATE, MODIFIED_DATE, MATCHED_DA
+TE, ASSIGNED_DATE,ORIGINATOR_TRADER, ORIGINATOR_FIRM, ORIGINATOR_CLEARER, COUNTE
+RPARTY_TRADER, COUNTERPARTY_FIRM, COUNTERPARTY_CLEARER,COUNTERTRADE_ID, COUNTERT
+RADE_SRC_ID, COUNTERTRADE_SUB_NO, BUY_SELL_IND, CONTRACT_TYPE, GENERIC_CONTRACT_
+TYPE,PHYSICAL_COMMODITY, LOGICAL_COMMODITY, DELIVERY_MONTH, EXPIRY_DATE, EXERCIS
+E_PRICE, VOLUME, ACCOUNT_CODE, OPEN_CLOSE_IND,ALLOCATION_TRADER, ALLOCATION_FIRM
+, ALLOCATION_CLEARER, COUNTERCLAIM_ID, COUNTERCLAIM_SRC_ID, OPERATOR_NAME, USER_
+INFO,TRADE_CHARGE_IND, TRADING_ENVIRONMENT, MARGINING_ACCOUNT, CROSS_TYPE, KERB_
+TRANSFER_ORIG_NOTE_ID,KERB_TRANSFER_DEST_NOTE_ID, ORDER_SLIP_ID, TIME_BRACKET, K
+ERB_TREE_IND, TRADE_ENTRY_METHOD_IND, TRANSFER_IND,TRANSFER_PRICE, ORIG_TRADING_
+DAY, ORIG_SLIP_NO, ORIG_SLIP_SRC_ID, ORIG_SUB_TRADE_SEQ_NO, SUB_ACCOUNT, TRANSFE
+R_DAY,CONTRA_VOLUME, PRE_DEFAULT_TRADE_STATUS, PRE_DEFAULT_ACCOUNT_CODE, PRE_DEF
+AULT_ALLOC_TRADER, PRE_DEFAULT_ALLOC_FIRM,PRE_DEFAULT_ALLOC_CLEARER, PRE_DEFAULT
+_SUB_ACCOUNT, POSITION_REF, DID_CLOSING_SETTLEMENT_IND, OTIS_SLIP_ID, OTIS_CTI,O
+TIS_FBA, EXTERN_CLOSING_IND, POSITION_STATUS, PREASSIGNED_ACCOUNT_CODE, TSCS_TX_
+IND, OTIS_ORIGIN, TRADE_DATE,OTIS_NETTING_RULE_IND, TRADE_PRICE, VALUATION_PRICE
+, EXTERN_TRADE_DATE, AUTHORISATION_STATE_IND, CUSTOMER_TYPE_IND,DESIGNATED_ACCOU
+NT, CUSTOMER_REF, SESSION_ID, TRADE_CLIP_ID, ORDER_ID, AGGRESSOR, STRATEGY_CODE,
+ POSTING_CODE,PRODUCT_IDENTIFICATION, TRADE_LOCKED_IND, TRANSACTION_ID, TRS_TRAD
+E_STATUS, TRS_ACCOUNT_CODE, TRS_ALLOCATION_TRADER,TRS_ALLOCATION_FIRM, TRS_ALLOC
+ATION_CLEARER, TRS_OPEN_CLOSE_IND, TRS_POSITION_REF, TRS_MARGINING_ACCOUNT, KERB
+_TRADE_IND,TRS_KERB_TREE_IND, TRS_MODIFIED_DATE, TRS_MATCHED_DATE, KERB_MODIFIED
+_IND, COUNTERPARTY_ANONYMOUS_FIRM,COUNTERPARTY_ANONYMOUS_TRADER, TRS_KERB_TRADE_
+STATUS, TRS_SUB_ACCOUNT, TRANSACTION_ACTION_FLAG FROM half_trade WHERE (( ORIGIN
+ATOR_FIRM IN ('DMS','HLG','JPM','MFI','NKP','SCT','YFE') AND EXCHANGE_CODE='L' A
+ND TRADING_DAY =                                     8154 AND HALF_TRADE_ID = 30
+00010339 AND ORIGINATOR_FIRM = 'JPM' AND POSITION_STATUS = 'C' AND TRADE_STATUS
+IN ('NC'))) ORDER BY half_trade_id, sub_trade_seq_no, trading_day, exchange_code
+, slip_type ) ht WHERE rownum <= :p_max_rows + 1
+
+
+SQL> select * from table (dbms_xplan.display_cursor('c60y95m728gff'));
+
+PLAN_TABLE_OUTPUT
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SQL_ID  c60y95m728gff, child number 0
+-------------------------------------
+INSERT INTO half_trade_results SELECT /*+ DYNAMIC_SAMPLING(4) */
+:p_query_id, rownum AS query_row_num, ht.* FROM (SELECT HALF_TRADE_ID,
+HALF_TRADE_SRC_ID, SUB_TRADE_SEQ_NO, TRADING_DAY, MATCH_SEQ_NO,
+TRADE_STATUS, SLIP_TYPE,TRADE_TYPE, EXCHANGE_CODE, TRADER_CARD_REF,
+TRADED_DATE, ENTERED_DATE, MODIFIED_DATE, MATCHED_DATE,
+ASSIGNED_DATE,ORIGINATOR_TRADER, ORIGINATOR_FIRM, ORIGINATOR_CLEARER,
+COUNTERPARTY_TRADER, COUNTERPARTY_FIRM,
+COUNTERPARTY_CLEARER,COUNTERTRADE_ID, COUNTERTRADE_SRC_ID,
+COUNTERTRADE_SUB_NO, BUY_SELL_IND, CONTRACT_TYPE,
+GENERIC_CONTRACT_TYPE,PHYSICAL_COMMODITY, LOGICAL_COMMODITY,
+DELIVERY_MONTH, EXPIRY_DATE, EXERCISE_PRICE, VOLUME, ACCOUNT_CODE,
+OPEN_CLOSE_IND,ALLOCATION_TRADER, ALLOCATION_FIRM, ALLOCATION_CLEARER,
+COUNTERCLAIM_ID, COUNTERCLAIM_SRC_ID, OPERATOR_NAME,
+USER_INFO,TRADE_CHARGE_IND, TRADING_ENVIRONMENT, MARGINING_ACCOUNT,
+CROSS_TYPE, KERB_TRANSFER_ORIG_NOTE_ID,KERB_TRANSFER_DEST_NOTE_ID,
+ORDER_SLIP_ID, TIME_BRACKET, KERB_TREE_IND, TRADE_ENTRY_METHOD_IND, TR
+
+Plan hash value: 4288700986
+
+---------------------------------------------------------------------------------------------------------------------------
+| Id  | Operation                             | Name              | Rows  | Bytes | Cost (%CPU)| Time     | Pstart| Pstop |
+---------------------------------------------------------------------------------------------------------------------------
+|   0 | INSERT STATEMENT                      |                   |       |       |     4 (100)|          |       |       |
+|   1 |  LOAD TABLE CONVENTIONAL              |                   |       |       |            |          |       |       |
+|   2 |   COUNT STOPKEY                       |                   |       |       |            |          |       |       |
+|   3 |    PARTITION RANGE SINGLE             |                   |     1 |   782 |     4   (0)| 00:00:01 |  8155 |  8155 |
+|   4 |     VIEW                              |                   |     1 |   782 |     4   (0)| 00:00:01 |       |       |
+|   5 |      TABLE ACCESS BY LOCAL INDEX ROWID| HALF_TRADE        |     1 |   476 |     4   (0)| 00:00:01 |  8155 |  8155 |
+|   6 |       INDEX RANGE SCAN                | HALF_TRADE_PK_IDX |     1 |       |     3   (0)| 00:00:01 |  8155 |  8155 |
+---------------------------------------------------------------------------------------------------------------------------
+
+
+*** 2013-01-15 08:02:55.599
+** Executed dynamic sampling query:
+    level : 4
+    sample pct. : 0.512736
+    total partitions : 1
+      partitions for sampling : 1
+    actual sample size : 3544
+    filtered sample card. : 0
+    filtered sample card. (index HALF_TRADE_Q1_IDX): 0
+    filtered sample card. (index HALF_TRADE_Q0_IDX): 0
+    filtered sample card. (index HALF_TRADE_PK_IDX): 0
+    orig. card. : 1084428
+    block cnt. table stat. : 85594
+    block cnt. for sampling: 6046
+    max. sample block cnt. : 32
+    sample block cnt. : 31
+    min. sel. est. : 0.00000000
+** Not using dynamic sampling for single table sel. or cardinality.
+
+
